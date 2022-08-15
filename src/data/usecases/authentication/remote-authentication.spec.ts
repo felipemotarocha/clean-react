@@ -5,6 +5,7 @@ import RemoteAuthentication from './remote-authentication'
 import InvalidCredentialsError from '@/domain/errors/invalid-credentials-error'
 import { HttpStatusCode } from '@/data/protocols/http/http-response'
 import UnexpectedError from '@/domain/errors/unexpected-error'
+import NotFoundError from '@/domain/errors/not-found-error'
 
 type SutTypes = {
   sut: RemoteAuthentication
@@ -58,5 +59,15 @@ describe('RemoteAuthentication', () => {
     const promise = sut.auth(mockAuthentication())
 
     await expect(promise).rejects.toThrow(new UnexpectedError())
+  })
+
+  test('should throw NotFoundError if HttpPostClient returns 404', async () => {
+    const { sut, httpPostClientSpy } = makeSut()
+
+    httpPostClientSpy.response.statusCode = HttpStatusCode.notFound
+
+    const promise = sut.auth(mockAuthentication())
+
+    await expect(promise).rejects.toThrow(new NotFoundError())
   })
 })
