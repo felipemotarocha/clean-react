@@ -11,7 +11,7 @@ const makeSut = (): AxiosHttpClient => {
 }
 
 describe('AxiosHttpClient', () => {
-  it('should call axios with correct url', () => {
+  it('should call axios post method with correct url and post', () => {
     const sut = makeSut()
 
     const postSpy = jest.spyOn(mockedAxios, 'post')
