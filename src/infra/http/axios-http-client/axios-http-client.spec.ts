@@ -1,23 +1,26 @@
-import axios from 'axios'
 import { faker } from '@faker-js/faker'
 
 import { AxiosHttpClient } from './axios-http-client'
+import { mockAxios, mockedAxiosPostResult } from '@/infra/test/mock-axios'
+import axios from 'axios'
 
 jest.mock('axios')
-const mockedAxios = axios as jest.Mocked<typeof axios>
-const mockedAxiosPostResult = {
-  status: 201,
-  data: { param: 'any_value' },
-}
-mockedAxios.post.mockResolvedValue(mockedAxiosPostResult)
 
-const makeSut = (): AxiosHttpClient<any, any> => {
-  return new AxiosHttpClient()
+interface SutTypes {
+  sut: AxiosHttpClient<any, any>
+  mockedAxios: typeof axios
+}
+
+const makeSut = (): SutTypes => {
+  const sut = new AxiosHttpClient()
+  const mockedAxios = mockAxios()
+
+  return { sut, mockedAxios }
 }
 
 describe('AxiosHttpClient', () => {
   it('should call axios post method with correct body and url', () => {
-    const sut = makeSut()
+    const { sut, mockedAxios } = makeSut()
 
     const postSpy = jest.spyOn(mockedAxios, 'post')
 
@@ -30,7 +33,7 @@ describe('AxiosHttpClient', () => {
   })
 
   it('should return the correct status code and body', async () => {
-    const sut = makeSut()
+    const { sut, mockedAxios } = makeSut()
 
     const postSpy = jest.spyOn(mockedAxios, 'post')
 
