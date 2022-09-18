@@ -2,7 +2,7 @@
   "compilerOptions": {
     "lib": ["dom", "dom.iterable", "esnext"],
     "module": "esnext",
-    "target": "es5",
+    "target": "ES2016",
     "baseUrl": "src",
     "rootDir": "src",
     "paths": {
@@ -14,10 +14,7 @@
     "forceConsistentCasingInFileNames": true,
     "jsx": "react-jsx",
     "moduleResolution": "node",
-    "noEmit": true,
-    "noFallthroughCasesInSwitch": true,
     "resolveJsonModule": true,
-    "skipLibCheck": true,
     "strict": true
   }
 }
